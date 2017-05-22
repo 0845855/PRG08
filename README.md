@@ -16,3 +16,7 @@ Het doel is om zoveel mogelijk punten te verzamelen zonder dat je auto laat cras
 - In car.ts vind je alle dingen die de auto doet. Bij het sneller of langzamer gaan van de auto en bij het springen wordt de Strategy Pattern gebruikt (behavior.ts, driving.ts, jumping.ts en crashing.ts). Deze werkt op het moment nog niet helemaal perfect.
 - In Block.ts en longBlock.ts vind je de code voor de blokken die op je weg staan. Deze krijgen zo snel mogelijk een overerving, omdat nu dubbele code wordt gebruikt.
 - In Coin.ts vind je de code voor de muntjes.
+
+## Spelen!
+
+Spelen kan via https://0845855.github.io/PRG08/
