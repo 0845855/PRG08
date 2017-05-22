@@ -41,3 +41,7 @@ Het doel is om zoveel mogelijk punten te verzamelen zonder dat je auto laat cras
 ## Spelen!
 
 Spelen kan via https://0845855.github.io/PRG08/
+
+## UML
+
+https://github.com/0845855/PRG08/blob/master/UML.png
