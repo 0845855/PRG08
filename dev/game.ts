@@ -68,7 +68,7 @@ class Game {
     }
 
     // Laat eindscore zien in het scherm
-    public /*static*/ gameOver(score : number){
+    public gameOver(score : number){
         document.getElementById("score").innerHTML = "Game over! Score: " + score;
     }
 
@@ -77,7 +77,7 @@ class Game {
         Game.instance = new Game();
     }
     return Game.instance;
-}
+    }
 
 } 
 
