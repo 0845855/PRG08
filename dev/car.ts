@@ -46,7 +46,6 @@ class Car {
         this._behavior = new Drive(this);
     }
 
-
     private onKeyDown(e: KeyboardEvent): void {
         console.log(e.key);
         
@@ -87,6 +86,8 @@ class Car {
 
     public draw(): void {
 
+        let g : Game = Game.getInstance();
+
         this._behavior.performBehavior();
 
         // Check collision functie
@@ -97,11 +98,11 @@ class Car {
         // Wanneer de speler uit het scherm gaat, laat het scherm Game Over zien met 0 punten
         // Rechts te ver uit het scherm
         if(this.x >= 780){
-            this.game.endGame(0);
+            g.gameOver(0);
         }
         // Links te ver uit het scherm
         if(this.x <= -100){
-            this.game.endGame(0);
+            g.gameOver(0);
         }
 
         // Score teller

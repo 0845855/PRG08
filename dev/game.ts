@@ -4,8 +4,9 @@ class Game {
     private block : Block;
     private longblock : LongBlock;
     private coin : Coin;
+    private static instance: Game;
 
-    constructor() {
+    private constructor() {
         let container = document.getElementById("container");
         this.car = new Car(container, this);
         this.block = new Block(container, this);
@@ -32,7 +33,7 @@ class Game {
         this.car.y < this.block.y + this.block.height &&
         this.car.height + this.car.y > this.block.y){
 
-            this.endGame(Math.floor(this.car.score));
+            this.gameOver(Math.floor(this.car.score));
             this.car.score += 0;
             document.getElementById("plateau").classList.add("animationpaused");
             document.getElementById("sky").classList.add("animationpaused");
@@ -47,7 +48,7 @@ class Game {
         this.car.y < this.longblock.y + this.longblock.height &&
         this.car.height + this.car.y > this.longblock.y){
 
-            this.endGame(Math.floor(this.car.score));
+            this.gameOver(Math.floor(this.car.score));
             this.car.score += 0;
             document.getElementById("plateau").classList.add("animationpaused");
             document.getElementById("sky").classList.add("animationpaused");
@@ -67,13 +68,20 @@ class Game {
     }
 
     // Laat eindscore zien in het scherm
-    public endGame(score : number){
+    public /*static*/ gameOver(score : number){
         document.getElementById("score").innerHTML = "Game over! Score: " + score;
     }
-} 
 
+    public static getInstance(){
+    if(!Game.instance){
+        Game.instance = new Game();
+    }
+    return Game.instance;
+}
+
+} 
 
 // load
 window.addEventListener("load", function() {
-    let g:Game = new Game();
+    let g : Game = Game.getInstance();
 });
