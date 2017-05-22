@@ -100,6 +100,9 @@ class Car {
         // Check collision functie
         if(!this.game.checkCollision()){
             this.score += 0.0314;
+        }else{
+            this._behavior = new Crash(this);
+            this._behavior.performBehavior();
         }
 
         // Wanneer de speler uit het scherm gaat, laat het scherm Game Over zien met 0 punten

@@ -36,6 +36,7 @@ Het doel is om zoveel mogelijk punten te verzamelen zonder dat je auto laat cras
 
 - GameObject moet worden gemaakt, waar block, longblock, coin en car vanaf erven. Zo zullen de objecten minder code bevatten (is nu dubbel en onhandig).
 - Longblock moet weg, want dit is dubbele code.
+- De auto krijgt een crash animatie als hij crasht.
 
 ## Spelen!
 

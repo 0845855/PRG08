@@ -95,6 +95,10 @@ var Car = (function () {
         if (!this.game.checkCollision()) {
             this.score += 0.0314;
         }
+        else {
+            this._behavior = new Crash(this);
+            this._behavior.performBehavior();
+        }
         if (this.x >= 740) {
             g.gameOver(0);
         }
