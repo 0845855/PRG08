@@ -5,6 +5,7 @@
 - SPATIE = Springen
 - A = Langzamer rijden (snelheid wordt minimaal -1)
 - D = Sneller rijden (snelheid wordt maximaal 1)
+- Refresh de pagina om opnieuw te beginnen.
 
 ## Het doel
 
