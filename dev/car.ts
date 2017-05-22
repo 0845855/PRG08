@@ -56,7 +56,7 @@ class Car {
     private onKeyDown(e: KeyboardEvent): void {
         console.log(e.key);
         
-        if(e.key == ' ') {
+        if(e.key == ' ' && this.y == 220) {
             this.jumpDirection = -3;
             this.jumping();
         } else if(e.key == 'a'){

@@ -15,12 +15,11 @@ class Jump implements Behavior {
         this.car.x += this.car.speed;
         this.car.y += this.car.jumpDirection;
 
-        if (this.car.y < 120 /*&& this.car.rtj == true*/) {
+        if (this.car.y < 120) {
             this.car.jumpDirection = 3;
             this.car.rtj = false;
         }
-        if (this.car.y > 217 /*&& this.car.rtj == true*/) {
-            //this.car.state = 3;
+        if (this.car.y > 217) {
             this.car.jumpDirection = 0;
             this.car.rtj = true;
             this.car.driving();

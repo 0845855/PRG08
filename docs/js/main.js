@@ -63,7 +63,7 @@ var Car = (function () {
     });
     Car.prototype.onKeyDown = function (e) {
         console.log(e.key);
-        if (e.key == ' ') {
+        if (e.key == ' ' && this.y == 220) {
             this.jumpDirection = -3;
             this.jumping();
         }
