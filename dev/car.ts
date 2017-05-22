@@ -2,17 +2,23 @@
 
 class Car {
 
-    public speed: number;
-    public div: HTMLElement;
     private game: Game;
+    public div: HTMLElement;
+
+    public speed: number;
     public x: number;
     public y: number;
     public width : number;
     public height: number;
+
     public wheel1: Wheel;
     public wheel2: Wheel;
+
     public state: number;
     public jumpDirection: number;
+    //test code (ready to jump)
+    public rtj : boolean;
+
     public score : number;
 
     private _behavior : Behavior;
@@ -30,6 +36,7 @@ class Car {
         parent.appendChild(this.div);
         this.game = g;
         this.score = 1;
+        this.rtj = true;
 
         this.speed = 0;
         this.jumpDirection = -3;
@@ -97,17 +104,17 @@ class Car {
 
         // Wanneer de speler uit het scherm gaat, laat het scherm Game Over zien met 0 punten
         // Rechts te ver uit het scherm
-        if(this.x >= 780){
+        if(this.x >= 740){
             g.gameOver(0);
         }
         // Links te ver uit het scherm
-        if(this.x <= -100){
+        if(this.x <= -80){
+            console.log(this.x);
             g.gameOver(0);
         }
 
         // Score teller
         document.getElementById("score").innerHTML = "Score: " + Math.floor(this.score);
-        console.log(this.x);
 
         this.div.style.transform = "translate(" + this.x + "px," + this.y + "px)";
         this.wheel1.draw();

@@ -35,10 +35,6 @@ class Game {
 
             this.gameOver(Math.floor(this.car.score));
             this.car.score += 0;
-            document.getElementById("plateau").classList.add("animationpaused");
-            document.getElementById("sky").classList.add("animationpaused");
-            document.getElementById("block").classList.add("animationpaused");
-            document.getElementById("long_block").classList.add("animationpaused");
             return true;
         }
 
@@ -50,10 +46,6 @@ class Game {
 
             this.gameOver(Math.floor(this.car.score));
             this.car.score += 0;
-            document.getElementById("plateau").classList.add("animationpaused");
-            document.getElementById("sky").classList.add("animationpaused");
-            document.getElementById("block").classList.add("animationpaused");
-            document.getElementById("long_block").classList.add("animationpaused");
             return true;
         }
 
@@ -70,6 +62,11 @@ class Game {
     // Laat eindscore zien in het scherm
     public gameOver(score : number){
         document.getElementById("score").innerHTML = "Game over! Score: " + score;
+
+        document.getElementById("plateau").classList.add("animationpaused");
+        document.getElementById("sky").classList.add("animationpaused");
+        document.getElementById("block").classList.add("animationpaused");
+        document.getElementById("long_block").classList.add("animationpaused");
     }
 
     public static getInstance(){

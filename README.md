@@ -2,13 +2,20 @@
 
 ## Besturing
 
-- Met SPATIE is het mogelijk om te springen (voor het ontwijken van de rotsen en het pakken van de muntjes).
-- Met A kan je de auto langzamer laten rijden.
-- Met D kan je de auto sneller laten rijden.
+- SPATIE = Springen
+- A = Langzamer rijden (snelheid wordt minimaal -1)
+- D = Sneller rijden (snelheid wordt maximaal 1)
 
 ## Het doel
 
 Het doel is om zoveel mogelijk punten te verzamelen zonder dat je auto laat crashen op de rotsen die op de weg staan. Wanneer je de muntjes raakt krijg je per keer 5 extra punten.
+
+## Installatie
+
+- Fork mijn project
+- Open de map PRG08 in Visual Studio Code om de code te zien.
+- Open /docs/index.html in een webbrowser.
+- Veel plezier met spelen!
 
 ## Code
 
@@ -17,6 +24,12 @@ Het doel is om zoveel mogelijk punten te verzamelen zonder dat je auto laat cras
 - In Block.ts en longBlock.ts vind je de code voor de blokken die op je weg staan. Deze krijgen zo snel mogelijk een overerving, omdat nu dubbele code wordt gebruikt.
 - In Coin.ts vind je de code voor de muntjes.
 - Singleton wordt gebruikt in game.ts en car.ts.
+
+## Toepassingen
+Interface en Strategy Pattern bevatten het gedrag van de auto (behavior.ts, driving.ts, jumping.ts, crashing.ts).
+Singleton is gebruikt in game.ts, zodat je in car.ts geen this.game.functieNaam() hoeft te gebruiken.
+Encapsulation wordt gebruikt in onder andere game.ts en car.ts. Dit zijn de private variabelen.
+Compostion kan je vinden in game.ts en car.ts. In game.ts wordt 'this' meegegeven wanneer er een nieuwe car wordt gemaakt. In car.ts vind je 'g: Game' in de constructor.
 
 ## Spelen!
 

@@ -39,6 +39,7 @@ var Car = (function () {
         parent.appendChild(this.div);
         this.game = g;
         this.score = 1;
+        this.rtj = true;
         this.speed = 0;
         this.jumpDirection = -3;
         this.x = 100;
@@ -89,18 +90,19 @@ var Car = (function () {
         this._behavior = new Crash(this);
     };
     Car.prototype.draw = function () {
+        var g = Game.getInstance();
         this._behavior.performBehavior();
         if (!this.game.checkCollision()) {
             this.score += 0.0314;
         }
-        if (this.x >= 780) {
-            this.game.endGame(0);
+        if (this.x >= 740) {
+            g.gameOver(0);
         }
-        if (this.x <= -100) {
-            this.game.endGame(0);
+        if (this.x <= -80) {
+            console.log(this.x);
+            g.gameOver(0);
         }
         document.getElementById("score").innerHTML = "Score: " + Math.floor(this.score);
-        console.log(this.x);
         this.div.style.transform = "translate(" + this.x + "px," + this.y + "px)";
         this.wheel1.draw();
         this.wheel2.draw();
@@ -247,24 +249,16 @@ var Game = (function () {
             this.car.x + this.car.width > this.block.x &&
             this.car.y < this.block.y + this.block.height &&
             this.car.height + this.car.y > this.block.y) {
-            this.endGame(Math.floor(this.car.score));
+            this.gameOver(Math.floor(this.car.score));
             this.car.score += 0;
-            document.getElementById("plateau").classList.add("animationpaused");
-            document.getElementById("sky").classList.add("animationpaused");
-            document.getElementById("block").classList.add("animationpaused");
-            document.getElementById("long_block").classList.add("animationpaused");
             return true;
         }
         if (this.car.x < this.longblock.x + this.longblock.width &&
             this.car.x + this.car.width > this.longblock.x &&
             this.car.y < this.longblock.y + this.longblock.height &&
             this.car.height + this.car.y > this.longblock.y) {
-            this.endGame(Math.floor(this.car.score));
+            this.gameOver(Math.floor(this.car.score));
             this.car.score += 0;
-            document.getElementById("plateau").classList.add("animationpaused");
-            document.getElementById("sky").classList.add("animationpaused");
-            document.getElementById("block").classList.add("animationpaused");
-            document.getElementById("long_block").classList.add("animationpaused");
             return true;
         }
         if (this.car.x < this.coin.x + this.coin.width &&
@@ -275,13 +269,23 @@ var Game = (function () {
             this.coin.x = 1916;
         }
     };
-    Game.prototype.endGame = function (score) {
+    Game.prototype.gameOver = function (score) {
         document.getElementById("score").innerHTML = "Game over! Score: " + score;
+        document.getElementById("plateau").classList.add("animationpaused");
+        document.getElementById("sky").classList.add("animationpaused");
+        document.getElementById("block").classList.add("animationpaused");
+        document.getElementById("long_block").classList.add("animationpaused");
+    };
+    Game.getInstance = function () {
+        if (!Game.instance) {
+            Game.instance = new Game();
+        }
+        return Game.instance;
     };
     return Game;
 }());
 window.addEventListener("load", function () {
-    var g = new Game();
+    var g = Game.getInstance();
 });
 var Jump = (function () {
     function Jump(c) {
@@ -296,10 +300,11 @@ var Jump = (function () {
         this.car.y += this.car.jumpDirection;
         if (this.car.y < 120) {
             this.car.jumpDirection = 3;
-            console.log("jump-onJump123");
+            this.car.rtj = false;
         }
         if (this.car.y > 217) {
             this.car.jumpDirection = 0;
+            this.car.rtj = true;
             this.car.driving();
         }
     };
