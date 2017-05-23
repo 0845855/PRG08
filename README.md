@@ -28,7 +28,7 @@ Het doel is om zoveel mogelijk punten te verzamelen zonder dat je auto laat cras
 
 ## Toepassingen
 - Interface en Strategy Pattern bevatten het gedrag van de auto (behavior.ts, driving.ts, jumping.ts, crashing.ts).
-- Singleton is gebruikt in game.ts, zodat je in car.ts geen this.game.functieNaam() hoeft te gebruiken.
+- Singleton is gebruikt in game.ts, zodat je in car.ts geen this.game.functieNaam() hoeft te gebruiken, maar g.functieNaam().
 - Encapsulation wordt gebruikt in onder andere game.ts en car.ts. Dit zijn de private variabelen.
 - Compostion kan je vinden in game.ts en car.ts. In game.ts wordt 'this' meegegeven wanneer er een nieuwe car wordt gemaakt. In car.ts vind je 'g: Game' in de constructor.
 
