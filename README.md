@@ -62,3 +62,15 @@ Probeer dit aan te passen naar de vorm uit de lessen voor leesbaarheid. Bij Stra
 
 Het project is een Voldoende!
 
+## Pull request toelichting
+
+Ik heb verschillende aanpassingen toevoegingen gemaakt waar ik hieronder meer vertel. Deze staan ook aangegeven in de code met comments.
+
+Ik heb inhetirance toegepast. Zo heb ik een parent (miscItems.ts) gemaakt waar Block, LongBlock en Coin children van zijn. Zo is het makkelijker om code aan te passen (zoals speed) en x en y en is de code een stuk schoner en leger. MiscItems bevat de speed, draw() functie en het aanmaken van de 3 items.
+
+Ik heb een mappenstructuur aangemaakt. Toen ik het project voor het eerst opende wist ik niet wat alles was en waar het bij hoorde. Met deze mapenstructuur is het gemakkelijker om de bestanden te vinden en wordt je workflow verbeterd.
+
+Ik heb de Singleton in Car verbeterd. Hier gebruikte je nog de g : Game van gemixed met singleton. Door de g : Game weg te halen, wordt er over de hele classe 1 manier om Game in te gaan gebruikt en niet meerdere.
+
+In het spel werkte de crash animatie niet helemaal. Dit kwam omdat je animaties aansprak voor Block, LongBlock en Coin in de CSS die er niet waren. Deze items bewegen vanwege hun speed. Plateau en Sky hebben wel een animatie.
+
