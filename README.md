@@ -45,3 +45,20 @@ Spelen kan via https://0845855.github.io/PRG08/
 ## UML
 
 ![UML image](https://github.com/0845855/PRG08/blob/master/UML.png)
+
+
+# Review 1 Joost
+- De code is netjes voorzien van comments op de juiste plekken. Hierdoor is het makkelijker te lezen.
+- Strategy pattern is toegepast in een aangepaste vorm van uit de lessen. Dit was eerst wat moeilijk om te lezen en te begrijpen, maar na een tijdje werd het me duidelijk.
+Probeer dit aan te passen naar de vorm uit de lessen voor leesbaarheid. Bij Strategy hoord een Interface en die heb je ook goed toegepast. 
+- De file carswitch.ts doet niets omdat alles in de Strategy Pattern in omgezet, deze zou weg gehaald kunnen worden.
+- Singleton is goed toegepast, alleen was dit voor mijn aanpassingen op sommige plekken wel en niet toegepast in Car.
+- Het spel bevatte geen gamebreaking bugs en foutmeldingen.
+- Installatieinstructies waren duidelijk.
+- UML is duidelijk en laat een goed beeld zien van het eindproduct. Kleine foutjes bij de enhiterance van Block, LongBLock en coin naar gameobject. (bv, Block hoeft geen draw te bevatten omdat game Object deze heeft.)
+- Encapsulation en composition zijn beide goed toegepast.
+- Enheritance is niet toegepast, maar dit was volgens de UML voor een later stadium.
+- Er is geen Static Utility Method gebruikt in het project.
+
+Het project is een Voldoende!
+

@@ -1,23 +1,193 @@
-var Block = (function () {
-    function Block(parent, g) {
-        this.div = document.createElement("block");
-        parent.appendChild(this.div);
-        this.game = g;
-        this.speed = -4;
-        this.x = 800;
-        this.y = 240;
-        this.width = 32;
-        this.height = 31;
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Game = (function () {
+    function Game() {
+        var _this = this;
+        var container = document.getElementById("container");
+        this.car = new Car(container);
+        this.block = new Block(container);
+        this.longblock = new LongBlock(container);
+        this.coin = new Coin(container);
+        requestAnimationFrame(function () { return _this.gameLoop(); });
     }
-    Block.prototype.draw = function () {
+    Game.prototype.gameLoop = function () {
+        var _this = this;
+        this.car.draw();
+        this.block.draw();
+        this.longblock.draw();
+        this.coin.draw();
+        requestAnimationFrame(function () { return _this.gameLoop(); });
+    };
+    Game.prototype.checkCollision = function () {
+        if (this.car.x < this.block.x + this.block.width &&
+            this.car.x + this.car.width > this.block.x &&
+            this.car.y < this.block.y + this.block.height &&
+            this.car.height + this.car.y > this.block.y) {
+            this.gameOver(Math.floor(this.car.score));
+            this.car.score += 0;
+            return true;
+        }
+        if (this.car.x < this.longblock.x + this.longblock.width &&
+            this.car.x + this.car.width > this.longblock.x &&
+            this.car.y < this.longblock.y + this.longblock.height &&
+            this.car.height + this.car.y > this.longblock.y) {
+            this.gameOver(Math.floor(this.car.score));
+            this.car.score += 0;
+            return true;
+        }
+        if (this.car.x < this.coin.x + this.coin.width &&
+            this.car.x + this.car.width > this.coin.x &&
+            this.car.y < this.coin.y + this.coin.height &&
+            this.car.height + this.car.y > this.coin.y) {
+            this.car.score += 5;
+            this.coin.x = 1916;
+        }
+    };
+    Game.prototype.gameOver = function (score) {
+        document.getElementById("score").innerHTML = "Game over! Score: " + score;
+        document.getElementById("plateau").classList.add("animationpaused");
+        document.getElementById("sky").classList.add("animationpaused");
+        this.block.speed = 0;
+        this.longblock.speed = 0;
+        this.coin.speed = 0;
+    };
+    Game.getInstance = function () {
+        if (!Game.instance) {
+            Game.instance = new Game();
+        }
+        return Game.instance;
+    };
+    return Game;
+}());
+window.addEventListener("load", function () {
+    var g = Game.getInstance();
+});
+var Crash = (function () {
+    function Crash(c) {
+        this.car = c;
+    }
+    Crash.prototype.update = function () {
+        console.log("crash-update");
+    };
+    Crash.prototype.performBehavior = function () {
+        console.log("crash-onHit");
+        this.car.wheel1.speed = -3;
+        this.car.wheel2.speed = 3;
+        this.car.div.classList.add("crashed");
+    };
+    Crash.prototype.faster = function () {
+    };
+    Crash.prototype.slower = function () {
+    };
+    return Crash;
+}());
+var Drive = (function () {
+    function Drive(c) {
+        this.car = c;
+    }
+    Drive.prototype.update = function () {
+        console.log("drive-update");
+    };
+    Drive.prototype.performBehavior = function () {
+        console.log("drive-performBehavior");
+        this.car.x += this.car.speed;
+    };
+    Drive.prototype.faster = function () {
+        if (this.car.speed >= 1) {
+            this.car.speed = 1;
+        }
+        else {
+            this.car.speed += 1;
+        }
+    };
+    Drive.prototype.slower = function () {
+        if (this.car.speed <= -1) {
+            this.car.speed = -1;
+        }
+        else {
+            this.car.speed += -1;
+        }
+    };
+    return Drive;
+}());
+var Jump = (function () {
+    function Jump(c) {
+        this.car = c;
+    }
+    Jump.prototype.update = function () {
+        console.log("jump-update");
+    };
+    Jump.prototype.performBehavior = function () {
+        console.log("jump-performBehavior");
+        this.car.x += this.car.speed;
+        this.car.y += this.car.jumpDirection;
+        if (this.car.y < 120) {
+            this.car.jumpDirection = 3;
+            this.car.rtj = false;
+        }
+        if (this.car.y > 217) {
+            this.car.jumpDirection = 0;
+            this.car.rtj = true;
+            this.car.driving();
+        }
+    };
+    Jump.prototype.faster = function () {
+    };
+    Jump.prototype.slower = function () {
+    };
+    return Jump;
+}());
+var MiscItems = (function () {
+    function MiscItems(item, parent) {
+        this.div = document.createElement(item);
+        parent.appendChild(this.div);
+        this.speed = -4;
+    }
+    MiscItems.prototype.draw = function () {
         this.x += this.speed;
         this.div.style.transform = "translate(" + this.x + "px," + this.y + "px)";
         if (this.x <= -93) {
             this.x = 1283;
         }
     };
-    return Block;
+    return MiscItems;
 }());
+var Block = (function (_super) {
+    __extends(Block, _super);
+    function Block(parent) {
+        _super.call(this, "block", parent);
+        this.x = 800;
+        this.y = 240;
+        this.width = 32;
+        this.height = 31;
+    }
+    return Block;
+}(MiscItems));
+var Coin = (function (_super) {
+    __extends(Coin, _super);
+    function Coin(parent) {
+        _super.call(this, "coin", parent);
+        this.x = 700;
+        this.y = 140;
+        this.width = 32;
+        this.height = 31;
+    }
+    return Coin;
+}(MiscItems));
+var LongBlock = (function (_super) {
+    __extends(LongBlock, _super);
+    function LongBlock(parent) {
+        _super.call(this, "long_block", parent);
+        this.x = 1200;
+        this.y = 240;
+        this.width = 64;
+        this.height = 32;
+    }
+    return LongBlock;
+}(MiscItems));
 var Wheel = (function () {
     function Wheel(parent, offset) {
         this.div = document.createElement("wheel");
@@ -33,11 +203,10 @@ var Wheel = (function () {
     return Wheel;
 }());
 var Car = (function () {
-    function Car(parent, g) {
+    function Car(parent) {
         var _this = this;
         this.div = document.createElement("car");
         parent.appendChild(this.div);
-        this.game = g;
         this.score = 1;
         this.rtj = true;
         this.speed = 0;
@@ -90,9 +259,8 @@ var Car = (function () {
         this._behavior = new Crash(this);
     };
     Car.prototype.draw = function () {
-        var g = Game.getInstance();
         this._behavior.performBehavior();
-        if (!this.game.checkCollision()) {
+        if (!Game.getInstance().checkCollision()) {
             this.score += 0.0314;
         }
         else {
@@ -100,11 +268,11 @@ var Car = (function () {
             this._behavior.performBehavior();
         }
         if (this.x >= 740) {
-            g.gameOver(0);
+            Game.getInstance().gameOver(0);
         }
         if (this.x <= -80) {
             console.log(this.x);
-            g.gameOver(0);
+            Game.getInstance().gameOver(0);
         }
         document.getElementById("score").innerHTML = "Score: " + Math.floor(this.score);
         this.div.style.transform = "translate(" + this.x + "px," + this.y + "px)";
@@ -112,230 +280,5 @@ var Car = (function () {
         this.wheel2.draw();
     };
     return Car;
-}());
-var CarSwitch = (function () {
-    function CarSwitch(parent) {
-        var _this = this;
-        this.div = document.createElement("car");
-        parent.appendChild(this.div);
-        this.state = 1;
-        this.speed = 2;
-        this.jumpDirection = -3;
-        this.x = 0;
-        this.y = 220;
-        this.wheel1 = new Wheel(this.div, 20);
-        this.wheel2 = new Wheel(this.div, 100);
-        window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
-    }
-    CarSwitch.prototype.onKeyDown = function (e) {
-        if (this.state == 1) {
-            this.state = 2;
-        }
-    };
-    CarSwitch.prototype.draw = function () {
-        switch (this.state) {
-            case 1:
-                this.driving();
-                break;
-            case 2:
-                this.jumping();
-                break;
-            case 3:
-                this.crashing();
-                break;
-        }
-        this.div.style.transform = "translate(" + this.x + "px," + this.y + "px)";
-        this.wheel1.draw();
-        this.wheel2.draw();
-    };
-    CarSwitch.prototype.driving = function () {
-        this.x += this.speed;
-    };
-    CarSwitch.prototype.jumping = function () {
-    };
-    CarSwitch.prototype.crashing = function () {
-        this.wheel1.speed = -2;
-        this.wheel2.speed = 2;
-        this.div.classList.add("crashed");
-        document.getElementById("plateau").classList.add("animationpaused");
-        document.getElementById("sky").classList.add("animationpaused");
-    };
-    return CarSwitch;
-}());
-var Coin = (function () {
-    function Coin(parent, g) {
-        this.div = document.createElement("coin");
-        parent.appendChild(this.div);
-        this.game = g;
-        this.speed = -4;
-        this.x = 700;
-        this.y = 140;
-        this.width = 32;
-        this.height = 31;
-    }
-    Coin.prototype.draw = function () {
-        this.x += this.speed;
-        this.div.style.transform = "translate(" + this.x + "px," + this.y + "px)";
-        if (this.x <= -93) {
-            this.x = 1561;
-        }
-    };
-    return Coin;
-}());
-var Crash = (function () {
-    function Crash(c) {
-        this.car = c;
-    }
-    Crash.prototype.update = function () {
-        console.log("crash-update");
-    };
-    Crash.prototype.performBehavior = function () {
-        console.log("crash-onHit");
-        this.car.wheel1.speed = -2;
-        this.car.wheel2.speed = 2;
-        this.car.div.classList.add("crashed");
-    };
-    Crash.prototype.faster = function () {
-    };
-    Crash.prototype.slower = function () {
-    };
-    return Crash;
-}());
-var Drive = (function () {
-    function Drive(c) {
-        this.car = c;
-    }
-    Drive.prototype.update = function () {
-        console.log("drive-update");
-    };
-    Drive.prototype.performBehavior = function () {
-        console.log("drive-performBehavior");
-        this.car.x += this.car.speed;
-    };
-    Drive.prototype.faster = function () {
-        if (this.car.speed >= 1) {
-            this.car.speed = 1;
-        }
-        else {
-            this.car.speed += 1;
-        }
-    };
-    Drive.prototype.slower = function () {
-        if (this.car.speed <= -1) {
-            this.car.speed = -1;
-        }
-        else {
-            this.car.speed += -1;
-        }
-    };
-    return Drive;
-}());
-var Game = (function () {
-    function Game() {
-        var _this = this;
-        var container = document.getElementById("container");
-        this.car = new Car(container, this);
-        this.block = new Block(container, this);
-        this.longblock = new LongBlock(container, this);
-        this.coin = new Coin(container, this);
-        requestAnimationFrame(function () { return _this.gameLoop(); });
-    }
-    Game.prototype.gameLoop = function () {
-        var _this = this;
-        this.car.draw();
-        this.block.draw();
-        this.longblock.draw();
-        this.coin.draw();
-        requestAnimationFrame(function () { return _this.gameLoop(); });
-    };
-    Game.prototype.checkCollision = function () {
-        if (this.car.x < this.block.x + this.block.width &&
-            this.car.x + this.car.width > this.block.x &&
-            this.car.y < this.block.y + this.block.height &&
-            this.car.height + this.car.y > this.block.y) {
-            this.gameOver(Math.floor(this.car.score));
-            this.car.score += 0;
-            return true;
-        }
-        if (this.car.x < this.longblock.x + this.longblock.width &&
-            this.car.x + this.car.width > this.longblock.x &&
-            this.car.y < this.longblock.y + this.longblock.height &&
-            this.car.height + this.car.y > this.longblock.y) {
-            this.gameOver(Math.floor(this.car.score));
-            this.car.score += 0;
-            return true;
-        }
-        if (this.car.x < this.coin.x + this.coin.width &&
-            this.car.x + this.car.width > this.coin.x &&
-            this.car.y < this.coin.y + this.coin.height &&
-            this.car.height + this.car.y > this.coin.y) {
-            this.car.score += 5;
-            this.coin.x = 1916;
-        }
-    };
-    Game.prototype.gameOver = function (score) {
-        document.getElementById("score").innerHTML = "Game over! Score: " + score;
-        document.getElementById("plateau").classList.add("animationpaused");
-        document.getElementById("sky").classList.add("animationpaused");
-        document.getElementById("block").classList.add("animationpaused");
-        document.getElementById("long_block").classList.add("animationpaused");
-    };
-    Game.getInstance = function () {
-        if (!Game.instance) {
-            Game.instance = new Game();
-        }
-        return Game.instance;
-    };
-    return Game;
-}());
-window.addEventListener("load", function () {
-    var g = Game.getInstance();
-});
-var Jump = (function () {
-    function Jump(c) {
-        this.car = c;
-    }
-    Jump.prototype.update = function () {
-        console.log("jump-update");
-    };
-    Jump.prototype.performBehavior = function () {
-        console.log("jump-performBehavior");
-        this.car.x += this.car.speed;
-        this.car.y += this.car.jumpDirection;
-        if (this.car.y < 120) {
-            this.car.jumpDirection = 3;
-            this.car.rtj = false;
-        }
-        if (this.car.y > 217) {
-            this.car.jumpDirection = 0;
-            this.car.rtj = true;
-            this.car.driving();
-        }
-    };
-    Jump.prototype.faster = function () {
-    };
-    Jump.prototype.slower = function () {
-    };
-    return Jump;
-}());
-var LongBlock = (function () {
-    function LongBlock(parent, g) {
-        this.div = document.createElement("long_block");
-        parent.appendChild(this.div);
-        this.game = g;
-        this.speed = -4;
-        this.x = 1200;
-        this.y = 240;
-        this.width = 64;
-        this.height = 32;
-    }
-    LongBlock.prototype.draw = function () {
-        this.x += this.speed;
-        this.div.style.transform = "translate(" + this.x + "px," + this.y + "px)";
-        if (this.x <= -93) {
-            this.x = 1283;
-        }
-    };
-    return LongBlock;
 }());
 //# sourceMappingURL=main.js.map
