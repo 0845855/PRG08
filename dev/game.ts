@@ -8,10 +8,10 @@ class Game {
 
     private constructor() {
         let container = document.getElementById("container");
-        this.car = new Car(container, this);
-        this.block = new Block(container, this);
-        this.longblock = new LongBlock(container, this);
-        this.coin = new Coin(container, this);
+        this.car = new Car(container);
+        this.block = new Block(container);
+        this.longblock = new LongBlock(container);
+        this.coin = new Coin(container);
 
         requestAnimationFrame(() => this.gameLoop());
     }
@@ -21,11 +21,14 @@ class Game {
         this.block.draw();
         this.longblock.draw();
         this.coin.draw();
+
         requestAnimationFrame(() => this.gameLoop());
+
     }
 
     // Check collisions tussen speler en objecten
-    public checkCollision(){
+    // Verbetering functie geeft een boolean mee, wordt gebruikt in car.ts
+    public checkCollision() : boolean{
 
         // Check voor collision met kleine rots
         if(this.car.x < this.block.x + this.block.width &&
@@ -65,8 +68,15 @@ class Game {
 
         document.getElementById("plateau").classList.add("animationpaused");
         document.getElementById("sky").classList.add("animationpaused");
-        document.getElementById("block").classList.add("animationpaused");
-        document.getElementById("long_block").classList.add("animationpaused");
+
+        // >>>> VERBETERING: Car liet de crashed car niet zien omdat je een animation paused wilt zetten op objecten die geen animatie in de CSS hebben. (Ze bewegen door hun speed)
+
+            // document.getElementById("block").classList.add("animationpaused");
+            // document.getElementById("long_block").classList.add("animationpaused");
+            this.block.speed = 0;
+            this.longblock.speed = 0;
+            this.coin.speed = 0;
+
     }
 
     public static getInstance(){
